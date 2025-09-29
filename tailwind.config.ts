@@ -9,6 +9,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        novexiqPrimary: '#2563EB', // A custom blue, for example
+        novexiqAccent: '#FACC15', // A custom yellow
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'], // Add 'Inter' as your default sans-serif font
+        heading: ['Montserrat', 'sans-serif'], // A custom font for headings
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
