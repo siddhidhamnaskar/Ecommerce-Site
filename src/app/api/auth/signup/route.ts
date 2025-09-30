@@ -1,3 +1,5 @@
+export const runtime = "nodejs"; // at the top of route.ts
+
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import prisma from "@/lib/prisma";
@@ -16,7 +18,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const saltRounds = process.env.NODE_ENV === "production" ? 10 : 8;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const user = await prisma.user.create({
       data: { email, password: hashedPassword },
