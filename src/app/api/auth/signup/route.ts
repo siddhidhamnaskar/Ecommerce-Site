@@ -7,10 +7,10 @@ import { createToken } from "@/lib/jwt";
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
+    const { name,email, password} = await req.json();
 
-    if (!email || !password) {
-      return NextResponse.json({ error: "Email and password required" }, { status: 400 });
+    if (!name || !email || !password) {
+      return NextResponse.json({ error: "Name ,Email and password required" }, { status: 400 });
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -22,10 +22,10 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword },
+      data: { name, email, password: hashedPassword },
     });
 
-    const token = await createToken({ id: user.id, email: user.email });
+    const token = await createToken({ id: user.id,email: user.email });
 
     return NextResponse.json(
       { user: { id: user.id, email: user.email }, token },
