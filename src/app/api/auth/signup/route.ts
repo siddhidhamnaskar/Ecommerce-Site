@@ -28,9 +28,11 @@ export async function POST(req: Request) {
     const token = await createToken({ id: user.id,email: user.email });
 
     return NextResponse.json(
-      { user: { id: user.id, email: user.email }, token },
+      { user: { id: user.id, email: user.email }},
       { status: 201 }
     );
+
+   
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });

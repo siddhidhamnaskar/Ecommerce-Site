@@ -26,10 +26,20 @@ export async function POST(req: Request) {
     }
     const token = await createToken({ id: user.id,email:user.email });
 
-    return NextResponse.json(
-      { user: { id: user.id,name:user.name,email:user.email }, token },
+    const res=NextResponse.json(
+      { user: { id: user.id,name:user.name,email:user.email }},
       { status: 201 }
     );
+    res.cookies.set({
+      name: "auth_token",
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 15, // 15 minutes
+    });
+    return res;
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
