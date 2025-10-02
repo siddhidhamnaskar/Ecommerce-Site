@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
@@ -8,10 +9,10 @@ async function main() {
   if (!res.ok) throw new Error("Failed to fetch products from Fake Store API");
   const apiProducts: any[] = await res.json();
 
-  // 2️⃣ Extract unique categories from API
+  // 2️⃣ Extract unique categories
   const categoryNames = Array.from(new Set(apiProducts.map((p) => p.category)));
 
-  // 3️⃣ Upsert categories in Prisma
+  // 3️⃣ Upsert categories
   for (const name of categoryNames) {
     await prisma.category.upsert({
       where: { name },
@@ -20,28 +21,31 @@ async function main() {
     });
   }
 
-  // 4️⃣ Fetch inserted categories
+  // 4️⃣ Fetch categories from DB
   const allCategories = await prisma.category.findMany();
 
-  // 5️⃣ Map API products to Prisma format
-  const products = apiProducts.map((p) => {
-    const category = allCategories.find((c:any) => c.name === p.category);
+  // 5️⃣ Generate 500+ products by duplicating and randomizing
+  const products: any[] = [];
+  while (products.length < 500) {
+    const original = faker.helpers.arrayElement(apiProducts);
+    const category = allCategories.find((c:any) => c.name === original.category);
+    const PriceAdd:number=faker.number.float({ min: 0, max: 500 });
 
-    return {
-      name: p.title,
-      description: p.description,
-      price: parseFloat(p.price),
-      image: p.image,
+    products.push({
+      name: `${original.title} ${faker.commerce.productAdjective()}`,
+      description: original.description,
+      price: parseFloat(original.price) + PriceAdd,
+      image: original.image,
       categoryId: category?.id || null,
       createdAt: new Date(),
       updatedAt: new Date(),
-    };
-  });
+    });
+  }
 
-  // 6️⃣ Insert products
+  // 6️⃣ Insert into DB
   await prisma.product.createMany({ data: products });
 
-  console.log(`✅ Seeded ${products.length} products from Fake Store API!`);
+  console.log(`✅ Seeded ${products.length} products with Fake Store API + Faker!`);
 }
 
 main()
