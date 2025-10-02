@@ -1,11 +1,17 @@
-import { PrismaClient } from '@prisma/client'
-import { faker } from "@faker-js/faker";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const categoryNames = ["Electronics", "Clothing", "Home & Kitchen", "Sports", "Books"];
-  
+  // 1️⃣ Fetch products from Fake Store API
+  const res = await fetch("https://fakestoreapi.com/products");
+  if (!res.ok) throw new Error("Failed to fetch products from Fake Store API");
+  const apiProducts: any[] = await res.json();
+
+  // 2️⃣ Extract unique categories from API
+  const categoryNames = Array.from(new Set(apiProducts.map((p) => p.category)));
+
+  // 3️⃣ Upsert categories in Prisma
   for (const name of categoryNames) {
     await prisma.category.upsert({
       where: { name },
@@ -14,31 +20,34 @@ async function main() {
     });
   }
 
+  // 4️⃣ Fetch inserted categories
   const allCategories = await prisma.category.findMany();
 
-  const products = Array.from({ length: 500 }).map(() => {
-    const randomCategory = faker.helpers.arrayElement<typeof allCategories[number]>(allCategories);
+  // 5️⃣ Map API products to Prisma format
+  const products = apiProducts.map((p) => {
+    const category = allCategories.find((c:any) => c.name === p.category);
+
     return {
-        name: faker.commerce.productName(),
-        description: faker.commerce.productDescription(),
-        price: parseFloat(faker.commerce.price({ min: 500, max: 5000 })),
-        image: faker.image.urlPicsumPhotos({ width: 300, height: 200 }),
-        categoryId: randomCategory.id,
+      name: p.title,
+      description: p.description,
+      price: parseFloat(p.price),
+      image: p.image,
+      categoryId: category?.id || null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
   });
 
+  // 6️⃣ Insert products
+  await prisma.product.createMany({ data: products });
 
-  const productCount = await prisma.product.count();
-  if (productCount === 0) {
-    await prisma.product.createMany({ data: products });
-    console.log("✅ 5 Categories & 500 Products inserted!");
-  } else {
-    console.log("⚠️ Products already exist, skipping seeding.");
-  }
+  console.log(`✅ Seeded ${products.length} products from Fake Store API!`);
 }
 
 main()
-  .then(async () => prisma.$disconnect())
+  .then(async () => {
+    await prisma.$disconnect();
+  })
   .catch(async (e) => {
     console.error(e);
     await prisma.$disconnect();
