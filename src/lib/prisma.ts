@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../generated/prisma"; // adjust path as needed
+import { PrismaClient } from "@prisma/client"; // adjust path as needed
 
 let prisma: PrismaClient;
 
