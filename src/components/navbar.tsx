@@ -2,24 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  useEffect(() => {
-    // Check if user is logged in via cookie
-    const checkAuth = async () => {
-      const res = await fetch("/api/auth/check");
-      const data = await res.json();
-      setIsAuthenticated(data.authenticated);
-    };
-    checkAuth();
-  }, []);
+ const {isAuthenticated,setAuthenticated,refreshAuth}=useAuth();
 
   const handleLogout = async () => {
     // Call API to clear cookie
-    await fetch("/api/auth/logout", { method: "POST" });
-    setIsAuthenticated(false);
+    await fetch("/api/auth/logout", { method: "POST",credentials: "include" });
+    setAuthenticated(false);
+    await refreshAuth();
   };
 
   return (

@@ -1,40 +1,27 @@
 "use client";
 
 import "./globals.css";
+import { AuthProvider, useAuth } from "../context/AuthContext";
 import Navbar from "../components/navbar";
-import { usePathname } from "next/navigation";
-import { useState,useEffect } from "react";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated } = useAuth();
+  // Hide navbar if not authenticated
+  return (
+    <>
+      {isAuthenticated && <Navbar />}
+      <main>{children}</main>
+    </>
+  );
+}
 
-  useEffect(() => {
-     const checkAuth = async () => {
-      try {
-        const res = await fetch("/api/auth/check", { cache: "no-store" });
-        const data = await res.json();
-        setIsAuthenticated(data.authenticated);
-      } catch {
-        setIsAuthenticated(false);
-      }
-    };
-
-    checkAuth(); // run once on mount
-
-   
-  }, []);
-
-  // if (isAuthenticated === null) return<html lang="en"> <body><div>Loading...</div></body></html>;
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-         {isAuthenticated && <Navbar />}
-        <main>{children}</main>
+        <AuthProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </AuthProvider>
       </body>
     </html>
   );

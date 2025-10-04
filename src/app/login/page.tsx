@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LoginPage() {
+  const {setAuthenticated}=useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,7 @@ export default function LoginPage() {
         setError(data.error || "Login failed");
       } else {
         console.log("Login success:", data);
+        setAuthenticated(true);
         // TODO: Save token in localStorage / cookies
       }
     } catch (err) {
