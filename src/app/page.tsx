@@ -8,12 +8,21 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    async function checkAuth() {
-      const res = await fetch("/api/auth/check");
-      const data = await res.json();
-      setIsAuthenticated(data.authenticated);
-    }
-    checkAuth();
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/auth/check", { cache: "no-store" });
+        const data = await res.json();
+        setIsAuthenticated(data.authenticated);
+      } catch {
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth(); // run once on mount
+
+    // ✅ recheck every 30 seconds
+    const interval = setInterval(checkAuth, 3_000);
+    return () => clearInterval(interval);
   }, []);
 
   // if (isAuthenticated === null) return <div>Loading...</div>;

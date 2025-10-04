@@ -9,7 +9,7 @@ export default function ProductCard({product}:ProductCardProps){
     return <>
       <div
               key={product.id}
-              className="bg-white border rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col"
+              className="bg-white  rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col"
             >
               {product.image ? (
                 <img
