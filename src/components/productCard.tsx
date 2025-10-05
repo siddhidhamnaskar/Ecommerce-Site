@@ -1,15 +1,26 @@
-import { ProductWithCategory } from "@/types/productTypes"
+"use client";
+
+import { ProductWithCategory } from "@/types/productTypes";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: ProductWithCategory;
+  onClick?: () => void;
 }
 
 export default function ProductCard({product}:ProductCardProps){
+    const router = useRouter();
+    const handleClick = () => {
+    // Redirect to product details page with product id
+    router.push(`/productDetails/${product.id}`);
+  };
+
 
     return <>
       <div
               key={product.id}
               className="bg-white  rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col"
+              onClick={handleClick}
             >
               {product.image ? (
                 <img
