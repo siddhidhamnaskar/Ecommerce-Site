@@ -1,39 +1,68 @@
-export const runtime = "nodejs"; // at the top of route.ts
+export const runtime = "nodejs";
+
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    // console.log(searchParams);
+    const categoryParam = searchParams.get("category");
+    const minPriceParam = searchParams.get("minPrice");
+    const maxPriceParam = searchParams.get("maxPrice");
+    const sortByParam = searchParams.get("sortBy") || "createdAt";
+    const orderParam = (searchParams.get("order") || "desc").toLowerCase();
 
-export async function GET(req:Request){
-   try{
-     const {searchParams}=new URL(req.url);
+    // Convert to numbers safely
+    const minPrice =
+      minPriceParam !== null && minPriceParam !== ""
+        ? Number(minPriceParam)
+        : undefined;
+    const maxPrice =
+      maxPriceParam !== null && maxPriceParam !== ""
+        ? Number(maxPriceParam)
+        : undefined;
 
-     const category=searchParams.get('category');
-     const minPrice=searchParams.get('minPrice');
-     const maxPrice=searchParams.get('maxPrice');
-     const sortBy=searchParams.get('sortBy') || 'createdAt';
-     const order=searchParams.get('order') || 'desc';
+    if ((minPrice !== undefined && isNaN(minPrice)) ||
+        (maxPrice !== undefined && isNaN(maxPrice))) {
+      return NextResponse.json(
+        { error: "Invalid minPrice or maxPrice value" },
+        { status: 400 }
+      );
+    }
 
-     const products=await prisma.product.findMany({
-       where:{
-        ...(category ? { category: { name: { equals: category, mode: "insensitive" } } } : {}),
-        ...(minPrice ? { price: { gte: parseFloat(minPrice) } } : {}),
-        ...(maxPrice ? { price: { lte: parseFloat(maxPrice) } } : {}),
-       },
-       orderBy:{
-          [sortBy]:order
-       },
-       include:{
-         category:true
-       }
-     })
+    const order: "asc" | "desc" = orderParam === "asc" ? "asc" : "desc";
+
+    // Fetch products between minPrice and maxPrice
+    const products = await prisma.product.findMany({
+      where: {
+        ...(categoryParam
+          ? { category: { name: { equals: categoryParam, mode: "insensitive" } } }
+          : {}),
+        // Price filter between minPrice and maxPrice
+        ...(minPrice !== undefined || maxPrice !== undefined
+          ? {
+              price: {
+                ...(minPrice !== undefined ? { gte: minPrice } : {}),
+                ...(maxPrice !== undefined ? { lte: maxPrice } : {}),
+              },
+            }
+          : {}),
+      },
+      orderBy: {
+        [sortByParam]: order,
+      },
+      include: {
+        category: true,
+      },
+    });
 
     return NextResponse.json({ products }, { status: 200 });
-
-
-   }
-   catch(err)
-   {
-     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
-
-   }
+  } catch (err) {
+    // console.error(err);
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
+  }
 }

@@ -9,8 +9,8 @@ export type ProductWithCategory = {
 
 export type Filters = {
   category?: string;
-  minPrice?: string;
-  maxPrice?: string;
+  minPrice?: number;
+  maxPrice?: number;
   sortBy?: string;
   order?: string;
 };

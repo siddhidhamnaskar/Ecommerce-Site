@@ -12,8 +12,8 @@ export default function ProductFilters({
   filters: Filters;
 })  {
   const [category, setCategory] = useState("");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [minPrice, setMinPrice] = useState<number | "">("");
+  const [maxPrice, setMaxPrice] = useState<number | "">("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [order, setOrder] = useState("desc");
 
@@ -21,7 +21,8 @@ export default function ProductFilters({
       setFilters(prev => ({
         ...prev,
         category: category || "",    // overwrite even if empty
-        minPrice: minPrice || "",
+        minPrice: minPrice || 0,
+        maxPrice:maxPrice || 0,
         sortBy: sortBy || "",
         order: order || ""
       }));
@@ -30,7 +31,7 @@ export default function ProductFilters({
   };
   useEffect(()=>{
      handleChange();
-  },[category,minPrice,sortBy,order])
+  },[category,minPrice,maxPrice,sortBy,order])
 
   return (
     <div className="flex flex-wrap gap-4 mb-6 p-4 bg-gray-100 rounded-lg shadow">
@@ -57,7 +58,7 @@ export default function ProductFilters({
         className="border p-2 rounded w-28"
         value={minPrice}
         onChange={(e) => {
-          setMinPrice(e.target.value);
+          setMinPrice(e.target.value === "" ? "" : Number(e.target.value))
           
         }}
       />
@@ -67,7 +68,7 @@ export default function ProductFilters({
         className="border p-2 rounded w-28"
         value={maxPrice}
         onChange={(e) => {
-          setMaxPrice(e.target.value);
+         setMaxPrice(e.target.value === "" ? "" : Number(e.target.value))
           
         }}
       />

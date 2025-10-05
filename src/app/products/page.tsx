@@ -39,11 +39,12 @@ export default function ProductsPage() {
         }
         if(filters.minPrice)
         {
-          params.append("minPrice",filters.minPrice);
+          params.append("minPrice", String(filters.minPrice));
+
         }
         if(filters.maxPrice)
         {
-          params.append("maxPrice",filters.maxPrice)
+          params.append("maxPrice",String(filters.maxPrice));
         }
         if(filters.sortBy)
         {
