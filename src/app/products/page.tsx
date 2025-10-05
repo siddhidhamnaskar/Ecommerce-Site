@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ProductWithCategory } from "@/types/productTypes";
+import { ProductWithCategory, Filters} from "@/types/productTypes";
 import ProductCard from "@/components/productCard";
 import Navbar from "@/components/navbar";
 import ProductFilters from "@/components/productFilters";
+import Pagination from "@/components/paginations";
+
 
 
 
@@ -12,13 +14,19 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<ProductWithCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-   const [filters, setFilters] = useState({
-    category: "",
-    minPrice: "",
-    maxPrice: "",
-    sortBy: "createdAt",
-    order: "desc",
-  });
+   const [filters, setFilters] = useState<Filters>({});
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 6; // adjust as needed
+
+  // Calculate indexes
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  // Number of pages
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -72,15 +80,18 @@ export default function ProductsPage() {
    
     <div className="max-w-7xl mx-auto px-6 py-10">
       <h1 className="text-3xl font-bold mb-8">Products</h1>
-       <ProductFilters onChange={(newFilters) => setFilters(newFilters)}/>
+       <ProductFilters setFilters={setFilters} filters={filters}/>
       {products.length === 0 ? (
         <p className="text-gray-600">No products found.</p>
       ) : (
+        <>
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-          {products.map((product,index) => (
-            <ProductCard key={index} product={product}/>
-          ))}
+          {currentProducts.map((product, index) => (
+              <ProductCard key={index} product={product} />
+            ))}
         </div>
+           <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}/>
+          </>
       )}
     </div>
     </>

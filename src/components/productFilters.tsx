@@ -1,18 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Filters } from "@/types/productTypes";
 
-interface FiltersProps {
-  onChange: (filters: {
-    category: string;
-    minPrice: string;
-    maxPrice: string;
-    sortBy: string;
-    order: string;
-  }) => void;
-}
 
-export default function ProductFilters({ onChange }: FiltersProps) {
+export default function ProductFilters({
+  setFilters,
+  filters,
+}: {
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  filters: Filters;
+})  {
   const [category, setCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -20,8 +18,19 @@ export default function ProductFilters({ onChange }: FiltersProps) {
   const [order, setOrder] = useState("desc");
 
   const handleChange = () => {
-    onChange({ category, minPrice, maxPrice, sortBy, order });
+      setFilters(prev => ({
+        ...prev,
+        category: category || "",    // overwrite even if empty
+        minPrice: minPrice || "",
+        sortBy: sortBy || "",
+        order: order || ""
+      }));
+
+    
   };
+  useEffect(()=>{
+     handleChange();
+  },[category,minPrice,sortBy,order])
 
   return (
     <div className="flex flex-wrap gap-4 mb-6 p-4 bg-gray-100 rounded-lg shadow">
@@ -31,7 +40,7 @@ export default function ProductFilters({ onChange }: FiltersProps) {
         value={category}
         onChange={(e) => {
           setCategory(e.target.value);
-          handleChange();
+          
         }}
       >
         <option value="">All Categories</option>
@@ -49,7 +58,7 @@ export default function ProductFilters({ onChange }: FiltersProps) {
         value={minPrice}
         onChange={(e) => {
           setMinPrice(e.target.value);
-          handleChange();
+          
         }}
       />
       <input
@@ -59,7 +68,7 @@ export default function ProductFilters({ onChange }: FiltersProps) {
         value={maxPrice}
         onChange={(e) => {
           setMaxPrice(e.target.value);
-          handleChange();
+          
         }}
       />
 
@@ -69,7 +78,7 @@ export default function ProductFilters({ onChange }: FiltersProps) {
         value={sortBy}
         onChange={(e) => {
           setSortBy(e.target.value);
-          handleChange();
+          
         }}
       >
         <option value="createdAt">Newest</option>
@@ -83,7 +92,7 @@ export default function ProductFilters({ onChange }: FiltersProps) {
         value={order}
         onChange={(e) => {
           setOrder(e.target.value);
-          handleChange();
+          
         }}
       >
         <option value="desc">Desc</option>
