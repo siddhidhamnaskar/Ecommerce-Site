@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function CartPage() {
   const { items, total, refreshCart } = useCart();
@@ -119,9 +120,11 @@ const handleRemoveItem = async (itemId: string) => {
       <div className="mt-8 border-t pt-4">
         <div className="flex justify-between items-center">
           <span className="text-xl font-semibold">Total: ${total.toFixed(2)}</span>
-          <button className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition">
-            Proceed to Checkout
-          </button>
+          <Link href="/checkout">
+            <button className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition">
+              Proceed to Checkout
+            </button>
+          </Link>
         </div>
       </div>
     </div>

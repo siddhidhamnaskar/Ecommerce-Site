@@ -18,3 +18,12 @@ The ecommerce app has cart models in Prisma schema but lacks API routes, cart pa
 - Cart page should display items with product details, quantity, total
 - Navbar cart link should show item count
 - Cart context to manage state across components
+
+# TODO: Add Checkout Page
+
+## Overview
+Add a basic checkout page that displays cart items, total, shipping form, payment form (display only), and a place order button. Update cart page to link to checkout.
+
+## Steps
+- [x] Create /app/checkout/page.tsx with cart summary, shipping form, payment form, and place order button
+- [x] Update /app/cart/page.tsx to link "Proceed to Checkout" button to /checkout
