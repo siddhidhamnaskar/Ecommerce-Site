@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import LoginPage from "../app/login/page";
 
 interface AuthContextType {
   isAuthenticated: boolean | null;
@@ -42,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, refreshAuth, setAuthenticated: setIsAuthenticated }}>
-      {children}
+      {isAuthenticated ? children : <LoginPage />}
     </AuthContext.Provider>
   );
 }
