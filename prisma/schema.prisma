@@ -13,6 +13,7 @@ model User {
   email     String   @unique
   password  String?
   cart      Cart?
+  orders    Order[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -28,6 +29,7 @@ model Product {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   cartItems   CartItem[]
+  orderItems  OrderItem[]
 }
 
 model Category {
@@ -54,4 +56,36 @@ model CartItem {
   quantity  Int      @default(1)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id            String      @id @default(cuid()) @map("_id")
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String
+  items         OrderItem[]
+  total         Float
+  status        OrderStatus @default(PENDING)
+  paymentMethod String      // "card" or "cod"
+  shippingInfo  Json        // Store shipping details as JSON
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid()) @map("_id")
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+  price     Float   // Store price at time of order
+  createdAt DateTime @default(now())
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
 }

@@ -36,6 +36,9 @@ export default function Navbar() {
                   </span>
                 )}
               </Link>
+              <Link href="/orders" className="text-gray-700 hover:text-indigo-600">
+                Orders
+              </Link>
               <button
                 onClick={handleLogout}
                 className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"

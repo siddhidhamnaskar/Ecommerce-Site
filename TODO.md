@@ -1,23 +1,17 @@
-# TODO: Add Cart Page and Functionality
+# TODO: Add Orders Page
 
 ## Overview
-The ecommerce app has cart models in Prisma schema but lacks API routes, cart page, navbar updates, and cart context. This task involves implementing full cart functionality.
+The ecommerce app has order models and API routes but lacks an orders page for users to view their order history. This task involves creating an orders page that displays user's orders with details.
 
 ## Steps
-- [x] Create /api/cart/route.ts for POST (add item) and GET (retrieve cart)
-- [x] Create /app/cart/page.tsx for cart page UI
-- [x] Update navbar.tsx to include cart link with item count
-- [x] Create CartContext.tsx for global cart state management
-- [x] Update AddToCartButton.tsx to use cart context
-- [x] Create /api/cart/[itemId]/route.ts for DELETE and PATCH operations
-- [x] Update layout.tsx to include CartProvider
+- [x] Create /app/orders/page.tsx for orders page UI
+- [x] Update navbar.tsx to include orders link for authenticated users
+- [ ] Test orders page to ensure orders display correctly
 
 ## Notes
-- Cart is user-specific, requires authentication
-- API routes need JWT verification to get user ID
-- Cart page should display items with product details, quantity, total
-- Navbar cart link should show item count
-- Cart context to manage state across components
+- Orders page should display orders in a list with order ID, date, status, total, and expandable item details
+- Requires authentication to view orders
+- Use existing /api/orders route to fetch orders
 
 # TODO: Add Checkout Page
 
@@ -27,3 +21,4 @@ Add a basic checkout page that displays cart items, total, shipping form, paymen
 ## Steps
 - [x] Create /app/checkout/page.tsx with cart summary, shipping form, payment form, and place order button
 - [x] Update /app/cart/page.tsx to link "Proceed to Checkout" button to /checkout
+- [x] Update checkout page to handle POST order via /api/orders

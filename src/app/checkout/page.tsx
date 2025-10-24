@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function CheckoutPage() {
-  const { items, total } = useCart();
+  const { items, total, refreshCart } = useCart();
+  const router = useRouter();
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
     address: "",
@@ -32,12 +34,47 @@ export default function CheckoutPage() {
   };
 
   const handlePlaceOrder = async () => {
+    // Validate required fields
+    if (!shippingInfo.name || !shippingInfo.address || !shippingInfo.city || !shippingInfo.state || !shippingInfo.zip || !shippingInfo.country) {
+      alert("Please fill in all shipping information fields.");
+      return;
+    }
+
+    if (paymentMethod === "card" && (!paymentInfo.cardNumber || !paymentInfo.expiry || !paymentInfo.cvv || !paymentInfo.nameOnCard)) {
+      alert("Please fill in all payment information fields.");
+      return;
+    }
+
     setPlacingOrder(true);
-    // Simulate order placement
-    setTimeout(() => {
-      alert("Order placed successfully!");
+
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          shippingInfo,
+          paymentMethod,
+        }),
+      });
+
+      if (response.ok) {
+        const order = await response.json();
+        alert("Order placed successfully!");
+        await refreshCart(); // Refresh cart to clear it
+        router.push("/orders"); // Redirect to orders page
+      } else {
+        const error = await response.json();
+        alert(`Failed to place order: ${error.error}`);
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("An error occurred while placing the order. Please try again.");
+    } finally {
       setPlacingOrder(false);
-    }, 2000);
+    }
   };
 
   if (items.length === 0) {
