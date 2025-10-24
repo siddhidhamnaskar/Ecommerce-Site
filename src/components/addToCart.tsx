@@ -1,27 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 interface AddToCartButtonProps {
   productId: string;
 }
 
 export function AddToCartButton({ productId }: AddToCartButtonProps) {
-  const [loading, setLoading] = useState(false);
+  const { addToCart, loading } = useCart();
 
   const handleAddToCart = async () => {
-    setLoading(true);
     try {
-      await fetch("/api/cart", {
-        method: "POST",
-        body: JSON.stringify({ productId }),
-        headers: { "Content-Type": "application/json" },
-      });
+      await addToCart(productId);
       alert("Added to cart!");
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoading(false);
+      alert("Failed to add to cart");
     }
   };
 

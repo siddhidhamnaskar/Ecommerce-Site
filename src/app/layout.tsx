@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import { AuthProvider, useAuth } from "../context/AuthContext";
+import { CartProvider } from "../context/CartContext";
 import Navbar from "../components/navbar";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <AuthProvider>
-          <LayoutContent>{children}</LayoutContent>
+          <CartProvider>
+            <LayoutContent>{children}</LayoutContent>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>
