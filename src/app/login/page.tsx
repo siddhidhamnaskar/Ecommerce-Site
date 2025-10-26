@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import Link from "next/link";
 
 export default function LoginPage() {
-  const {setAuthenticated}=useAuth();
+  const {setAuthenticated,setAuthMode}=useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -86,9 +85,7 @@ export default function LoginPage() {
 
         <p className="mt-6 text-center text-gray-600 text-sm">
           Don’t have an account?{" "}
-          <Link href="/signup" className="text-indigo-600 font-medium hover:underline">
-            Sign up
-          </Link>
+          <button onClick={() => setAuthMode("signup")}>Go to Signup</button>
         </p>
       </div>
     </div>

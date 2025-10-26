@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
+import { useAuth } from "../../context/AuthContext";
 
 
 export default function SignUpPage(){
+  const {setAuthMode}=useAuth();
     const [error,setError]=useState('');
     const [success,setSuccess]=useState('');
     const [loading,setLoading]=useState(false);
@@ -120,8 +121,7 @@ export default function SignUpPage(){
             </form>
             <p className="mt-6 text-center text-gray-600  text-sm">
               Already have an account?{' '}
-              <Link href="/" className="text-indigo-600 font-medium hover:underline">Login
-              </Link>
+              <button onClick={() => setAuthMode("login")}>Go to Login</button>
             
             </p>
             
