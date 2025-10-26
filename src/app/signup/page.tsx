@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 
 
 export default function SignUpPage(){
@@ -13,7 +14,7 @@ export default function SignUpPage(){
     const [confirmPassword,setConfirmPassword]=useState('');
 
 
-    const handleSubmit=async(e:any)=>{
+    const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
       e.preventDefault();
       setError("");
       try{
@@ -119,9 +120,9 @@ export default function SignUpPage(){
             </form>
             <p className="mt-6 text-center text-gray-600  text-sm">
               Already have an account?{' '}
-              <a href="/" className="text-indigo-600 font-medium hover:underline">
-                 Login
-              </a>
+              <Link href="/" className="text-indigo-600 font-medium hover:underline">Login
+              </Link>
+            
             </p>
             
          </div>

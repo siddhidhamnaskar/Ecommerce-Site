@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import Link from "next/link";
 
 export default function LoginPage() {
   const {setAuthenticated}=useAuth();
@@ -85,9 +86,9 @@ export default function LoginPage() {
 
         <p className="mt-6 text-center text-gray-600 text-sm">
           Don’t have an account?{" "}
-          <a href="/signup" className="text-indigo-600 font-medium hover:underline">
+          <Link href="/signup" className="text-indigo-600 font-medium hover:underline">
             Sign up
-          </a>
+          </Link>
         </p>
       </div>
     </div>
