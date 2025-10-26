@@ -36,7 +36,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { itemId: string } }
+  context: { params: Promise<{ itemId: string }> }
 ) {
   try {
     const cookieStore = await cookies();
@@ -48,7 +48,7 @@ export async function PATCH(
 
     await verifyToken(token);
 
-    const { itemId } = params;
+    const { itemId } = await context.params;
     const { quantity } = await req.json();
 
     if (quantity < 1) {

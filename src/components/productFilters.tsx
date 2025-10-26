@@ -6,10 +6,8 @@ import { Filters } from "@/types/productTypes";
 
 export default function ProductFilters({
   setFilters,
-  filters,
 }: {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
-  filters: Filters;
 })  {
   const [category, setCategory] = useState("");
   const [minPrice, setMinPrice] = useState<number | "">("");
@@ -46,8 +44,8 @@ export default function ProductFilters({
       >
         <option value="">All Categories</option>
         <option value="electronics">Electronics</option>
-        <option value="men's clothing">Men's Clothing</option>
-        <option value="women's clothing">Women's Clothing</option>
+        <option value="men's clothing">Men&apos;s Clothing</option>
+        <option value="women's clothing">Women&apos;s Clothing</option>
         <option value="jewelery">Jewelery</option>
       </select>
 

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { ProductWithCategory, Filters} from "@/types/productTypes";
 import ProductCard from "@/components/productCard";
-import Navbar from "@/components/navbar";
 import ProductFilters from "@/components/productFilters";
 import Pagination from "@/components/paginations";
 
@@ -65,8 +64,8 @@ export default function ProductsPage() {
         if (!res.ok) throw new Error(data.error || "Failed to fetch products");
 
         setProducts(data.products);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
         setLoading(false);
       }
@@ -83,7 +82,7 @@ export default function ProductsPage() {
    
     <div className="max-w-7xl mx-auto px-6 py-10">
       <h1 className="text-3xl font-bold mb-8">Products</h1>
-       <ProductFilters setFilters={setFilters} filters={filters}/>
+       <ProductFilters setFilters={setFilters}/>
       {products.length === 0 ? (
         <p className="text-gray-600">No products found.</p>
       ) : (

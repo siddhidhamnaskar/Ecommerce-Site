@@ -26,7 +26,7 @@ async function getUserFromToken(request: NextRequest) {
 // GET /api/orders/[orderId] - Get specific order
 export async function GET(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ) {
   try {
     const user = await getUserFromToken(request);
@@ -34,9 +34,11 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { orderId } = await context.params;
+
     const order = await prisma.order.findFirst({
       where: {
-        id: params.orderId,
+        id: orderId,
         userId: user.id, // Ensure user can only access their own orders
       },
       include: {
@@ -62,7 +64,7 @@ export async function GET(
 // PATCH /api/orders/[orderId] - Update order status (admin only for now)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ) {
   try {
     const user = await getUserFromToken(request);
@@ -70,6 +72,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { orderId } = await context.params;
     const { status } = await request.json();
 
     if (!status) {
@@ -80,7 +83,7 @@ export async function PATCH(
     // In production, you'd want admin-only status updates
     const order = await prisma.order.findFirst({
       where: {
-        id: params.orderId,
+        id: orderId,
         userId: user.id,
       },
     });
@@ -92,7 +95,7 @@ export async function PATCH(
     // Only allow cancellation for pending orders
     if (status === "CANCELLED" && order.status === "PENDING") {
       const updatedOrder = await prisma.order.update({
-        where: { id: params.orderId },
+        where: { id: orderId },
         data: { status },
         include: {
           items: {
