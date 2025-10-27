@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import LoginPage from "./login/page";
 import ProductsPage from "./products/page";

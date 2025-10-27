@@ -9,6 +9,7 @@ interface MyJWTPayload extends JWTPayload {
 
 // ✅ Create token (during login)
 export async function createToken(payload: MyJWTPayload) {
+ 
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("1h")
