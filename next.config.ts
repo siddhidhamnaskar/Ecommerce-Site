@@ -2,9 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone',       // important for Amplify SSR
-  reactStrictMode: true,
-  typescript: {
-    ignoreBuildErrors: false, // ensures TypeScript errors break the build
+  trailingSlash: true,
+  env: {
+    DATABASE_URL:process.env.DATABAE_URL, // ensures TypeScript errors break the build
+    JWT_SECRET:process.env.JWT_CESRET
   },
      images: {
     domains: ['fakestoreapi.com'],
