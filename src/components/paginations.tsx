@@ -1,44 +1,85 @@
 "use client";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 interface PaginationProps {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
 }
 
-export default function Pagination({ currentPage, setCurrentPage, totalPages }: PaginationProps) {
-  return (
-    <>
-      {/* Pagination Controls */}
-      <div className="flex justify-center mt-6 space-x-2">
-        <button
-          className="px-3 py-1 border rounded disabled:opacity-50"
-          onClick={() => setCurrentPage((prev: number) => prev - 1)}
-          disabled={currentPage === 1}
-        >
-          Prev
-        </button>
+export default function CustomPagination({ currentPage, setCurrentPage, totalPages }: PaginationProps) {
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i + 1}
-            className={`px-3 py-1 border rounded ${
-              currentPage === i + 1 ? "bg-blue-500 text-white" : ""
-            }`}
-            onClick={() => setCurrentPage(i + 1)}
+  const renderPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(
+        <PaginationItem key={i}>
+          <PaginationLink
+            href="#"
+            isActive={currentPage === i}
+            size="default"
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(i);
+            }}
           >
-            {i + 1}
-          </button>
-        ))}
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
 
-        <button
-          className="px-3 py-1 border rounded disabled:opacity-50"
-          onClick={() => setCurrentPage((prev: number) => prev + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-    </>
+    return pages;
+  };
+
+  return (
+    <Pagination className="mt-6">
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            href="#"
+            size="default"
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(currentPage - 1);
+            }}
+            className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+          />
+        </PaginationItem>
+        {renderPageNumbers()}
+        <PaginationItem>
+          <PaginationNext
+            href="#"
+            size="default"
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(currentPage + 1);
+            }}
+            className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 }
