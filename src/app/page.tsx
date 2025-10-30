@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import LoginPage from "./login/page";
 import ProductsPage from "./products/page";
 import SignUpPage from "./signup/page";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
@@ -13,5 +14,5 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  return isAuthenticated ? <ProductsPage /> : null;
+  return isAuthenticated ? <ProductsPage />: null;
 }
