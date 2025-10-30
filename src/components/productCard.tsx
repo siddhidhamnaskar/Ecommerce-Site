@@ -46,7 +46,7 @@ export default function ProductCard({product}:ProductCardProps){
                 </p>
 
                 <p className="mt-auto text-xl font-bold text-indigo-600">
-                  ₹{product.price}
+                  ₹{product.price.toFixed(0)}
                 </p>
               </div>
             </div>

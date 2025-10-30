@@ -76,7 +76,7 @@ const handleRemoveItem = async (itemId: string) => {
             )}
             <div className="flex-1">
               <h3 className="text-lg font-semibold">{item.product.name}</h3>
-              <p className="text-gray-600">${item.product.price.toFixed(2)}</p>
+              <p className="text-gray-600"> ₹{item.product.price.toFixed(0)}</p>
             </div>
             {/* Quantity Control */}
           <div className="flex items-center space-x-2">
@@ -100,7 +100,7 @@ const handleRemoveItem = async (itemId: string) => {
           </div>
             <div className="ml-4">
               <p className="text-lg font-semibold">
-                ₹{(item.product.price * item.quantity).toFixed(2)}
+                ₹{(item.product.price * item.quantity).toFixed(0)}
               </p>
             </div>
             <button
@@ -119,7 +119,7 @@ const handleRemoveItem = async (itemId: string) => {
 
       <div className="mt-8 border-t pt-4">
         <div className="flex justify-between items-center">
-          <span className="text-xl font-semibold">Total: ${total.toFixed(2)}</span>
+          <span className="text-xl font-semibold">Total:  ₹{total.toFixed(0)}</span>
           <Link href="/checkout">
             <button className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition">
               Proceed to Checkout

@@ -33,7 +33,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <div className="md:w-1/2 flex flex-col gap-4">
         <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>
         <p className="text-gray-500 text-sm">Category: {product.category?.name}</p>
-        <p className="text-2xl font-semibold text-green-600">${product.price.toFixed(2)}</p>
+        <p className="text-2xl font-semibold text-green-600"> ₹{product.price.toFixed(0)}</p>
         <p className="text-gray-700">{product.description}</p>
 
 

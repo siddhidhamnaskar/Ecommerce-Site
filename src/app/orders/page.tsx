@@ -102,7 +102,7 @@ export default function OrdersPage() {
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-lg font-semibold">${order.total.toFixed(2)}</p>
+                <p className="text-lg font-semibold"> ₹{order.total.toFixed(0)}</p>
                 <span className={`px-2 py-1 rounded text-sm ${
                   order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
                   order.status === 'CONFIRMED' ? 'bg-blue-100 text-blue-800' :
@@ -145,11 +145,11 @@ export default function OrdersPage() {
                       <div className="flex-1">
                         <p className="font-medium">{item.product.name}</p>
                         <p className="text-sm text-gray-600">
-                          Qty: {item.quantity} × ${item.price.toFixed(2)}
+                          Qty: {item.quantity} × ${item.price.toFixed(0)}
                         </p>
                       </div>
                       <p className="font-semibold">
-                        ${(item.price * item.quantity).toFixed(2)}
+                         ₹{(item.price * item.quantity).toFixed(0)}
                       </p>
                     </div>
                   ))}
