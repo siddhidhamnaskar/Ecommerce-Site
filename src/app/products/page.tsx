@@ -6,6 +6,7 @@ import ProductCard from "@/components/productCard";
 import ProductFilters from "@/components/productFilters";
 import Pagination from "@/components/paginations";
 import { ProductListSkeleton } from "@/components/ui/loading-skeleton";
+import CategoryCarousel from "@/components/categoryCarousel";
 
 
 
@@ -80,9 +81,15 @@ export default function ProductsPage() {
 
   return (
     <>
-   
+
     <div className="max-w-7xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8">Products</h1>
+     
+
+      {/* Category Carousel */}
+      <div className="mb-8">
+        <CategoryCarousel />
+      </div>
+
        <ProductFilters setFilters={setFilters}/>
       {products.length === 0 ? (
         <p className="text-gray-600">No products found.</p>
