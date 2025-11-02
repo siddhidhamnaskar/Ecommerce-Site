@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { AuthSkeleton } from "@/components/ui/loading-skeleton";
 
 
 export default function SignUpPage(){

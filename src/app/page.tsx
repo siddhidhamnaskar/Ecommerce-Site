@@ -6,12 +6,13 @@ import LoginPage from "./login/page";
 import ProductsPage from "./products/page";
 import SignUpPage from "./signup/page";
 import { Button } from "@/components/ui/button";
+import { ProductListSkeleton } from "@/components/ui/loading-skeleton";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>;
+    return <ProductListSkeleton />;
   }
 
   return isAuthenticated ? <ProductsPage />: null;

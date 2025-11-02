@@ -5,6 +5,7 @@ import { ProductWithCategory, Filters} from "@/types/productTypes";
 import ProductCard from "@/components/productCard";
 import ProductFilters from "@/components/productFilters";
 import Pagination from "@/components/paginations";
+import { ProductListSkeleton } from "@/components/ui/loading-skeleton";
 
 
 
@@ -74,7 +75,7 @@ export default function ProductsPage() {
     fetchProducts();
   }, [filters]);
 
-  if (loading) return <p className="text-center mt-10">Loading products...</p>;
+  if (loading) return <ProductListSkeleton />;
   if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
 
   return (

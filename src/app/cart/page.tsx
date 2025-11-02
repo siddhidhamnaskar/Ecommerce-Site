@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
 import Link from "next/link";
+import { CartSkeleton } from "@/components/ui/loading-skeleton";
 
 export default function CartPage() {
   const { items, total, refreshCart } = useCart();

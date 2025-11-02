@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { AuthSkeleton } from "@/components/ui/loading-skeleton";
 
 export default function LoginPage() {
   const {setAuthenticated,setAuthMode}=useAuth();
