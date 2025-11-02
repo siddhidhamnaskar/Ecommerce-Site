@@ -4,6 +4,8 @@ import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { CheckCircle, XCircle } from "lucide-react";
 
 export default function CheckoutPage() {
   const { items, total, refreshCart } = useCart();
@@ -24,6 +26,7 @@ export default function CheckoutPage() {
     nameOnCard: "",
   });
   const [placingOrder, setPlacingOrder] = useState(false);
+  const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
@@ -36,12 +39,12 @@ export default function CheckoutPage() {
   const handlePlaceOrder = async () => {
     // Validate required fields
     if (!shippingInfo.name || !shippingInfo.address || !shippingInfo.city || !shippingInfo.state || !shippingInfo.zip || !shippingInfo.country) {
-      alert("Please fill in all shipping information fields.");
+      setAlert({ type: "error", message: "Please fill in all shipping information fields." });
       return;
     }
 
     if (paymentMethod === "card" && (!paymentInfo.cardNumber || !paymentInfo.expiry || !paymentInfo.cvv || !paymentInfo.nameOnCard)) {
-      alert("Please fill in all payment information fields.");
+      setAlert({ type: "error", message: "Please fill in all payment information fields." });
       return;
     }
 
@@ -62,16 +65,16 @@ export default function CheckoutPage() {
 
       if (response.ok) {
         const order = await response.json();
-        alert("Order placed successfully!");
+        setAlert({ type: "success", message: "Order placed successfully!" });
         await refreshCart(); // Refresh cart to clear it
         router.push("/orders"); // Redirect to orders page
       } else {
         const error = await response.json();
-        alert(`Failed to place order: ${error.error}`);
+        setAlert({ type: "error", message: `Failed to place order: ${error.error}` });
       }
     } catch (error) {
       console.error("Error placing order:", error);
-      alert("An error occurred while placing the order. Please try again.");
+      setAlert({ type: "error", message: "An error occurred while placing the order. Please try again." });
     } finally {
       setPlacingOrder(false);
     }
@@ -128,6 +131,16 @@ export default function CheckoutPage() {
 
         {/* Forms */}
         <div className="space-y-8">
+          {alert && (
+            <Alert variant={alert.type === "error" ? "destructive" : "default"}>
+              {alert.type === "success" ? (
+                <CheckCircle className="h-4 w-4" />
+              ) : (
+                <XCircle className="h-4 w-4" />
+              )}
+              <AlertDescription>{alert.message}</AlertDescription>
+            </Alert>
+          )}
           {/* Shipping Information */}
           <div>
             <h2 className="text-2xl font-semibold mb-4">Shipping Information</h2>

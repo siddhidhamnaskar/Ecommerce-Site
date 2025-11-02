@@ -1,36 +1,19 @@
-# TODO: Add Orders Page
+# TODO
 
-## Overview
-The ecommerce app has order models and API routes but lacks an orders page for users to view their order history. This task involves creating an orders page that displays user's orders with details.
+## Replace browser alerts with shadcn/ui alerts
 
-## Steps
-- [x] Create /app/orders/page.tsx for orders page UI
-- [x] Update navbar.tsx to include orders link for authenticated users
-- [ ] Test orders page to ensure orders display correctly
+### Files to update:
+- [x] src/components/addToCart.tsx: Replace `alert("Added to cart!");` and `alert("Failed to add to cart");` with shadcn/ui Alert components.
+- [x] src/app/checkout/page.tsx: Replace multiple `alert()` calls with shadcn/ui Alert components for validation and success/error messages.
 
-## Notes
-- Orders page should display orders in a list with order ID, date, status, total, and expandable item details
-- Requires authentication to view orders
-- Use existing /api/orders route to fetch orders
+### Steps:
+1. Import Alert components in each file.
+2. Add state for managing alert visibility and messages.
+3. Replace alert() calls with state updates to show alerts.
+4. Render Alert components conditionally based on state.
+5. Use appropriate variants (e.g., destructive for errors, default for success).
 
-# TODO: Add Checkout Page
-
-## Overview
-Add a basic checkout page that displays cart items, total, shipping form, payment form (display only), and a place order button. Update cart page to link to checkout.
-
-## Steps
-- [x] Create /app/checkout/page.tsx with cart summary, shipping form, payment form, and place order button
-- [x] Update /app/cart/page.tsx to link "Proceed to Checkout" button to /checkout
-- [x] Update checkout page to handle POST order via /api/orders
-
-# TODO: Make Navbar Responsive
-
-## Overview
-Make the navbar responsive for mobile and laptop by adding a hamburger menu for mobile screens and keeping horizontal layout for larger screens.
-
-## Steps
-- [x] Add state for mobile menu toggle in navbar.tsx
-- [x] Add hamburger icon button for mobile
-- [x] Modify navigation items to hide on small screens and show vertically when menu is open
-- [x] Ensure responsive classes with Tailwind CSS
-- [x] Test responsiveness on mobile and laptop views
+### Notes:
+- Use AlertTitle and AlertDescription for structured messages.
+- Consider using icons from lucide-react for better UX (e.g., CheckCircle for success, XCircle for errors).
+- Ensure alerts are dismissible or auto-hide after a timeout.
