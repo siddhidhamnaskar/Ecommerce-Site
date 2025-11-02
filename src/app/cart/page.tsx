@@ -64,7 +64,9 @@ const handleRemoveItem = async (itemId: string) => {
 
       <div className="space-y-4">
         {items && items.map((item) => (
-          <div key={item.id} className="flex items-center border rounded-lg p-4">
+          
+          <div key={item.id} className="flex flex-wrap lg:flex-nowrap md:nowrap  justify-between items-center border rounded-lg p-4">
+            <div className="flex items-center">
             {item.product.image && (
               <Image
                 src={item.product.image}
@@ -78,7 +80,9 @@ const handleRemoveItem = async (itemId: string) => {
               <h3 className="text-lg font-semibold">{item.product.name}</h3>
               <p className="text-gray-600"> ₹{item.product.price.toFixed(0)}</p>
             </div>
+            </div>
             {/* Quantity Control */}
+            <div className="flex items-center">
           <div className="flex items-center space-x-2">
             <button
               onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
@@ -112,7 +116,7 @@ const handleRemoveItem = async (itemId: string) => {
             >
               {loadingItemId === item.id ? "Removing..." : "Remove"}
             </button>
-
+             </div>
           </div>
         ))}
       </div>
