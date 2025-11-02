@@ -10,6 +10,7 @@ interface AuthContextType {
   setAuthenticated: (value: boolean) => void;
   authMode: "login" | "signup";
   setAuthMode: (mode: "login" | "signup") => void;
+  user: { id: string; name: string; email: string } | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -18,10 +19,12 @@ const AuthContext = createContext<AuthContextType>({
   setAuthenticated: () => {},
   authMode: "login",
   setAuthMode: () => {},
+  user: null,
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [user, setUser] = useState<{ id: string; name: string; email: string } | null>(null);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
 
   const refreshAuth = async () => {
@@ -30,8 +33,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data = await res.json();
       console.log("Authenticated", data.authenticated);
       setIsAuthenticated(data.authenticated);
+      setUser(data.user || null);
     } catch {
       setIsAuthenticated(false);
+      setUser(null);
     }
   };
 
@@ -50,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const AuthPage = authMode === "login" ? LoginPage : SignupPage;
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, refreshAuth, setAuthenticated: setIsAuthenticated, authMode, setAuthMode }}>
+    <AuthContext.Provider value={{ isAuthenticated, refreshAuth, setAuthenticated: setIsAuthenticated, authMode, setAuthMode, user }}>
       {isAuthenticated ? children : <AuthPage />}
     </AuthContext.Provider>
   );

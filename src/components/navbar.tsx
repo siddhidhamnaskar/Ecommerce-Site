@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
- const {isAuthenticated,setAuthenticated,refreshAuth}=useAuth();
+ const {isAuthenticated,setAuthenticated,refreshAuth, user}=useAuth();
  const { items } = useCart();
 
   const handleLogout = async () => {
@@ -28,6 +28,12 @@ export default function Navbar() {
 
           {isAuthenticated ? (
             <>
+              <div className="flex items-center space-x-2">
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span className="text-gray-700">Welcome, {user?.name}</span>
+              </div>
               <Link href="/cart" className="relative text-gray-700 hover:text-indigo-600">
                 Cart
                 {items.length > 0 && (
