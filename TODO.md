@@ -22,3 +22,15 @@ Add a basic checkout page that displays cart items, total, shipping form, paymen
 - [x] Create /app/checkout/page.tsx with cart summary, shipping form, payment form, and place order button
 - [x] Update /app/cart/page.tsx to link "Proceed to Checkout" button to /checkout
 - [x] Update checkout page to handle POST order via /api/orders
+
+# TODO: Make Navbar Responsive
+
+## Overview
+Make the navbar responsive for mobile and laptop by adding a hamburger menu for mobile screens and keeping horizontal layout for larger screens.
+
+## Steps
+- [x] Add state for mobile menu toggle in navbar.tsx
+- [x] Add hamburger icon button for mobile
+- [x] Modify navigation items to hide on small screens and show vertically when menu is open
+- [x] Ensure responsive classes with Tailwind CSS
+- [x] Test responsiveness on mobile and laptop views
