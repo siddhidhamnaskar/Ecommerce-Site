@@ -87,10 +87,16 @@ export default function ProductsPage() {
 
       {/* Category Carousel */}
       <div className="mb-8">
-        <CategoryCarousel />
+        <CategoryCarousel onCategorySelect={(category) => {
+          setFilters(prev => ({
+            ...prev,
+            category: category || "",    // overwrite even if empty
+          }));
+          setCurrentPage(1); // Reset to first page when filtering
+        }} />
       </div>
 
-       <ProductFilters setFilters={setFilters}/>
+       <ProductFilters setFilters={setFilters} filters={filters}/>
       {products.length === 0 ? (
         <p className="text-gray-600">No products found.</p>
       ) : (

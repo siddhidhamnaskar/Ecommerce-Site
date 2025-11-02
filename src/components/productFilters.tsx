@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { Filters } from "@/types/productTypes";
 
-
-export default function ProductFilters({
-  setFilters,
-}: {
+type ProductFiltersProps = {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
-})  {
+  filters: Filters;
+};
+
+
+export default function ProductFilters({ setFilters, filters }: ProductFiltersProps)  {
   const [category, setCategory] = useState("");
   const [minPrice, setMinPrice] = useState<number | "">("");
   const [maxPrice, setMaxPrice] = useState<number | "">("");
@@ -36,7 +37,7 @@ export default function ProductFilters({
       {/* Category */}
       <select
         className="border p-2 rounded"
-        value={category}
+        value={filters.category}
         onChange={(e) => {
           setCategory(e.target.value);
           

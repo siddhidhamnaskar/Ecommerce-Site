@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -10,7 +10,11 @@ interface Category {
   img?: string;
 }
 
-export default function CategoryCarousel() {
+interface CategoryCarouselProps {
+  onCategorySelect?: (categoryId: string) => void;
+}
+
+export default function CategoryCarousel({ onCategorySelect }: CategoryCarouselProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -35,18 +39,18 @@ export default function CategoryCarousel() {
     fetchCategories();
   }, []);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
       prevIndex === categories.length - 1 ? 0 : prevIndex + 1
     );
-  };
+  }, [categories.length]);
 
   useEffect(()=>{
       const Interval=setInterval(()=>{
          nextSlide();
       },2000)
       return ()=>clearInterval(Interval);
-  },[categories])
+  },[nextSlide])
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
@@ -87,7 +91,10 @@ export default function CategoryCarousel() {
         >
           {categories.map((category) => (
             <div key={category.id} className="w-full flex-shrink-0">
-              <div className="relative h-64 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg overflow-hidden">
+              <div
+                className="relative h-64 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                onClick={() => onCategorySelect?.(category.name)}
+              >
                 {category.img ? (
                   <Image
                     src={category.img}
@@ -104,7 +111,7 @@ export default function CategoryCarousel() {
                     </span>
                   </div>
                 )}
-               
+                
               </div>
             </div>
           ))}
