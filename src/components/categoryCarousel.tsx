@@ -83,7 +83,7 @@ export default function CategoryCarousel({ onCategorySelect }: CategoryCarouselP
   }
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto">
+    <div className="relative w-full mx-auto">
       <div className="overflow-hidden rounded-lg">
         <div
           className="flex transition-transform duration-300 ease-in-out"
@@ -92,7 +92,7 @@ export default function CategoryCarousel({ onCategorySelect }: CategoryCarouselP
           {categories.map((category) => (
             <div key={category.id} className="w-full flex-shrink-0">
               <div
-                className="relative h-64 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                className="w-full relative h-64 lg:h-84 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity duration-200"
                 onClick={() => onCategorySelect?.(category.name)}
               >
                 {category.img ? (
@@ -101,8 +101,8 @@ export default function CategoryCarousel({ onCategorySelect }: CategoryCarouselP
                     alt={category.name}
                     fill
                     priority
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-content"
+                    sizes="100vw"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gray-300">
