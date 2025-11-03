@@ -117,7 +117,7 @@ export default function SignUpPage(){
                  disabled={loading}
                  className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition disabled:opacity-50"
                >
-                {loading ? "Creating accounr..." : "Login"}
+                {loading ? "Creating accounr..." : "SignUp"}
                </button>
             </form>
             <p className="mt-6 text-center text-gray-600  text-sm">

@@ -96,25 +96,32 @@ export default function ProductsPage() {
         }} />
       </div>
 
-       <ProductFilters setFilters={setFilters} filters={filters}/>
-      {products.length === 0 ? (
-        <p className="text-gray-600">No products found.</p>
-      ) : (
-        <>
-       <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-              {currentProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  
-                />
-              ))}
-            </div>
+      {/* Two-column layout: Filters on left, Products on right */}
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Left side: Filters */}
+        <div className="md:w-1/4">
+          <ProductFilters setFilters={setFilters} filters={filters}/>
+        </div>
 
-           
-           <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}/>
-          </>
-      )}
+        {/* Right side: Products and Pagination */}
+        <div className="md:w-3/4">
+          {products.length === 0 ? (
+            <p className="text-gray-600">No products found.</p>
+          ) : (
+            <>
+              <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+                {currentProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                  />
+                ))}
+              </div>
+              <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}/>
+            </>
+          )}
+        </div>
+      </div>
     </div>
     </>
   );
