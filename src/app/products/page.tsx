@@ -82,7 +82,7 @@ export default function ProductsPage() {
   return (
     <>
 
-    <div className="max-w-7xl mx-auto px-6 py-10">
+    <div className="w-full mx-auto px-6 py-10">
      
 
       {/* Category Carousel */}
@@ -97,14 +97,14 @@ export default function ProductsPage() {
       </div>
 
       {/* Two-column layout: Filters on left, Products on right */}
-      <div className="flex flex-col md:flex-row gap-8">
+      <div className="w-full flex flex-col lg:flex-row gap-8">
         {/* Left side: Filters */}
-        <div className="md:w-1/4">
+        <div className="w-full lg:w-1/4">
           <ProductFilters setFilters={setFilters} filters={filters}/>
         </div>
 
         {/* Right side: Products and Pagination */}
-        <div className="md:w-3/4">
+        <div className="w-full">
           {products.length === 0 ? (
             <p className="text-gray-600">No products found.</p>
           ) : (
