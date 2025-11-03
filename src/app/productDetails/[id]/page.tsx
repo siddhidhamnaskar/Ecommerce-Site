@@ -1,17 +1,26 @@
 "use client";
 
 import { AddToCartButton } from "@/components/addToCart";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ProductWithCategory } from "@/types/productTypes";
 import { ProductDetailSkeleton } from "@/components/ui/loading-skeleton";
+import { useCart } from "@/context/CartContext";
 
 export default function ProductPage() {
   const params = useParams();
+  const router = useRouter();
+  const { addToCart } = useCart();
   const id = params.id as string;
   const [product, setProduct] = useState<ProductWithCategory | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [buyNowLoading, setBuyNowLoading] = useState(false);
+
+  const handleBuyNow = () => {
+    if (!product) return;
+    router.push(`/buy-now/${product.id}`);
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -54,7 +63,16 @@ export default function ProductPage() {
         <p className="text-2xl font-semibold text-green-600"> ₹{product.price.toFixed(0)}</p>
         <p className="text-gray-700">{product.description}</p>
 
-        <AddToCartButton productId={product.id} />
+        <div className="flex gap-4">
+          <AddToCartButton productId={product.id} />
+          <button
+            onClick={handleBuyNow}
+            disabled={buyNowLoading}
+            className="mt-4 px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
+          >
+            {buyNowLoading ? "Processing..." : "Buy Now"}
+          </button>
+        </div>
       </div>
     </div>
   );

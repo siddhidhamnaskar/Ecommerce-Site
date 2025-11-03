@@ -1,15 +1,21 @@
 "use client";
 import { useState } from "react";
-import { useCart } from "@/context/CartContext";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle, XCircle } from "lucide-react";
+import { ProductWithCategory } from "@/types/productTypes";
 
-export default function CheckoutPage() {
-  const { items, total, refreshCart } = useCart();
+export default function BuyNowPage() {
+  const params = useParams();
   const router = useRouter();
+  const id = params.id as string;
+  const [product, setProduct] = useState<ProductWithCategory | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
     address: "",
@@ -27,6 +33,25 @@ export default function CheckoutPage() {
   });
   const [placingOrder, setPlacingOrder] = useState(false);
   const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`/api/products/${id}`);
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || "Failed to fetch product");
+
+        setProduct(data.product);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchProduct();
+  }, [id]);
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
@@ -51,13 +76,15 @@ export default function CheckoutPage() {
     setPlacingOrder(true);
 
     try {
-      const response = await fetch("/api/orders", {
+      const response = await fetch("/api/orders/single", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
         body: JSON.stringify({
+          productId: product?.id,
+          quantity: 1,
           shippingInfo,
           paymentMethod,
         }),
@@ -66,7 +93,6 @@ export default function CheckoutPage() {
       if (response.ok) {
         const order = await response.json();
         setAlert({ type: "success", message: "Order placed successfully!" });
-        await refreshCart(); // Refresh cart to clear it
         router.push("/orders"); // Redirect to orders page
       } else {
         const error = await response.json();
@@ -80,51 +106,44 @@ export default function CheckoutPage() {
     }
   };
 
-  if (items.length === 0) {
-    return (
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
-        <p className="text-gray-600">Your cart is empty. <Link href="/products" className="text-blue-600 hover:underline">Continue shopping</Link></p>
-      </div>
-    );
-  }
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
+  if (!product) return <p className="text-center mt-10">Product not found</p>;
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
-      <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+      <h1 className="text-3xl font-bold mb-8">Buy Now</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Order Summary */}
         <div>
           <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
           <div className="space-y-4">
-            {items.map((item) => (
-              <div key={item.id} className="flex items-center border rounded-lg p-4">
-                {item.product.image && (
-                  <Image
-                    src={item.product.image}
-                    alt={item.product.name}
-                    width={60}
-                    height={60}
-                    className="rounded-lg mr-4"
-                  />
-                )}
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold">{item.product.name}</h3>
-                  <p className="text-gray-600">Qty: {item.quantity}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-semibold">
-                    ₹{(item.product.price * item.quantity).toFixed(0)}
-                  </p>
-                </div>
+            <div className="flex items-center border rounded-lg p-4">
+              {product.image && (
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={60}
+                  height={60}
+                  className="rounded-lg mr-4"
+                />
+              )}
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold">{product.name}</h3>
+                <p className="text-gray-600">Qty: 1</p>
               </div>
-            ))}
+              <div className="text-right">
+                <p className="text-lg font-semibold">
+                  ₹{product.price.toFixed(0)}
+                </p>
+              </div>
+            </div>
           </div>
           <div className="mt-6 border-t pt-4">
             <div className="flex justify-between items-center text-xl font-bold">
               <span>Total:</span>
-              <span>₹{total.toFixed(0)}</span>
+              <span>₹{product.price.toFixed(0)}</span>
             </div>
           </div>
         </div>

@@ -19,6 +19,7 @@ interface CartContextType {
   total: number;
   refreshCart: () => Promise<void>;
   addToCart: (productId: string, quantity?: number) => Promise<void>;
+  clearCart: () => Promise<void>;
   loading: boolean;
 }
 
@@ -27,6 +28,7 @@ const CartContext = createContext<CartContextType>({
   total: 0,
   refreshCart: async () => {},
   addToCart: async () => {},
+  clearCart: async () => {},
   loading: false,
 });
 
@@ -70,6 +72,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const clearCart = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/cart", {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) {
+        setItems([]);
+        setTotal(0);
+      } else {
+        throw new Error("Failed to clear cart");
+      }
+    } catch (error) {
+      console.error("Failed to clear cart:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     refreshCart(); // initial check
 
@@ -83,7 +106,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <CartContext.Provider value={{ items, total, refreshCart, addToCart, loading }}>
+    <CartContext.Provider value={{ items, total, refreshCart, addToCart, clearCart, loading }}>
       {children}
     </CartContext.Provider>
   );
