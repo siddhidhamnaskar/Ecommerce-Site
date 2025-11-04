@@ -2,6 +2,7 @@
 
 import { ProductWithCategory } from "@/types/productTypes";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface ProductCardProps {
   product: ProductWithCategory;
@@ -23,11 +24,15 @@ export default function ProductCard({product}:ProductCardProps){
               onClick={handleClick}
             >
               {product.image ? (
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-48 object-cover rounded-lg"
-                />
+                <div className="relative w-full h-48 rounded-lg overflow-hidden">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
               ) : (
                 <div className="w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg">
                   <span className="text-gray-500 text-sm">No Image</span>

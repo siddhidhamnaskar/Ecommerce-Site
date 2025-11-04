@@ -1,10 +1,6 @@
-# TODO: Create Single Product Order API
+# TODO: Fix Image Loading in ProductCard
 
-- [x] Create src/app/api/orders/single/route.ts
-- [x] Implement POST handler for single product orders
-- [x] Add validation for productId, quantity, shippingInfo, paymentMethod
-- [x] Fetch product details from database
-- [x] Calculate total price
-- [x] Create order with single OrderItem in transaction
-- [x] Return created order response
-- [x] Update buy-now page to use new single product order API
+- [x] Import Next.js Image component in ProductCard.tsx
+- [x] Replace standard <img> tag with Next.js <Image> component for lazy loading and optimization
+- [x] Wrap Image in a relative positioned div to use fill prop
+- [x] Verify the changes work correctly (Dev server started, browser testing disabled)

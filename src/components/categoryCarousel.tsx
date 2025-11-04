@@ -92,7 +92,7 @@ export default function CategoryCarousel({ onCategorySelect }: CategoryCarouselP
           {categories.map((category) => (
             <div key={category.id} className="w-full flex-shrink-0">
               <div
-                className="w-full relative h-64 lg:h-84 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                className="w-full relative h-64 lg:h-74 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity duration-200"
                 onClick={() => onCategorySelect?.(category.name)}
               >
                 {category.img ? (
@@ -101,7 +101,7 @@ export default function CategoryCarousel({ onCategorySelect }: CategoryCarouselP
                     alt={category.name}
                     fill
                     priority
-                    className="object-content"
+                    className="object-fit"
                     sizes="100vw"
                   />
                 ) : (
