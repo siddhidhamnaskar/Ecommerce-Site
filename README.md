@@ -1,47 +1,57 @@
-# 🛍️ Ecommerce Site
+🛍️ E-Commerce Web App
 
-A modern and responsive **Ecommerce web application** built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **Shadcn UI**.  
-This project was created to practice full-stack web development, modern UI design, and component-based architecture.
+A modern and responsive E-Commerce web application built with Next.js 14, TypeScript, Tailwind CSS, Shadcn/UI, Prisma, and MongoDB.
+This project focuses on clean UI, fast performance, and type-safe backend integration.
 
----
+🚀 Live Demo
 
-## 🎥 Demo
+👉 [View Live Site](https://ecommerce-site-three-psi.vercel.app)
 
-Here’s a quick walkthrough of the Ecommerce Site:
+🎥 [Watch Demo Video](https://screenrec.com/share/q74EuBXjSG)
 
-[![Watch Demo](https://screenrec.com/share/q74EuBXjSG)](https://screenrec.com/share/q74EuBXjSG)
+🧠 Tech Stack
+Category	Technology
+Framework	Next.js 14 (App Router)
+Language	TypeScript
+Styling	Tailwind CSS + Shadcn/UI Components
+ORM	Prisma
+Database	MongoDB (Atlas)
+Deployment	Vercel
+💡 Features
 
-> 🎬 Replace `YOUR_VIDEO_ID` with your actual YouTube video ID  
-> (or drag and drop your `.mp4` in this README if you want GitHub to host it directly)
+🛒 Browse products with category filters
 
----
+🔍 Product details page
 
-## 🚀 Tech Stack
+🛍️ Add to cart / remove from cart
 
-- **Framework:** [Next.js 14](https://nextjs.org/)
-- **Language:** TypeScript
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components:** [Shadcn UI](https://ui.shadcn.com/)
-- **State Management:** Context API
-- **Database:** Prisma + MongoDB
-- **Deployment:** (e.g. Vercel)
+💳 Checkout flow (demo or Stripe test mode)
 
----
+👤 User authentication (JWT)
 
-## ✨ Features
+🧑‍💻 Admin panel for managing products (CRUD)
 
-- 🏠 Modern landing & product listing pages  
-- 📄 Product details with price and description  
-- 🛒 Add to cart / remove from cart  
-- 💳 Checkout page (mock or real integration)  
-- 🔍 Product search and category filtering  
-- 🌓 Light/Dark mode toggle (Shadcn UI)  
-- 📱 Fully responsive for mobile & desktop  
-- ⚡ SEO-friendly with Next.js App Router  
+📱 Fully responsive design
 
----
+⚡ Type-safe backend APIs with Prisma + TypeScript
 
-## 📁 Folder Structure
+
+🧭 Folder Structure
+📦 ecommerce-app
+├── prisma/
+│   ├── schema.prisma
+│   └── seed.ts
+├── src/
+│   ├── app/
+│   │   ├── (routes)
+│   │   ├── api/
+│   ├── components/
+│   ├── lib/
+│   ├── styles/
+│   └── utils/
+├── .env
+├── package.json
+└── README.md
 
 
 
