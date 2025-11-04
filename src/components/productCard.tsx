@@ -29,7 +29,7 @@ export default function ProductCard({product}:ProductCardProps){
                     src={product.image}
                     alt={product.name}
                     fill
-                    className="object-cover"
+                    className="object-content"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
