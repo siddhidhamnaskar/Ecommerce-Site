@@ -1,3 +1,51 @@
+# 🛍️ Ecommerce Site
+
+A modern and responsive **Ecommerce web application** built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **Shadcn UI**.  
+This project was created to practice full-stack web development, modern UI design, and component-based architecture.
+
+---
+
+## 🎥 Demo
+
+Here’s a quick walkthrough of the Ecommerce Site:
+
+[![Watch Demo](https://screenrec.com/share/q74EuBXjSG)](https://screenrec.com/share/q74EuBXjSG)
+
+> 🎬 Replace `YOUR_VIDEO_ID` with your actual YouTube video ID  
+> (or drag and drop your `.mp4` in this README if you want GitHub to host it directly)
+
+---
+
+## 🚀 Tech Stack
+
+- **Framework:** [Next.js 14](https://nextjs.org/)
+- **Language:** TypeScript
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [Shadcn UI](https://ui.shadcn.com/)
+- **State Management:** Context API
+- **Database:** Prisma + MongoDB
+- **Deployment:** (e.g. Vercel)
+
+---
+
+## ✨ Features
+
+- 🏠 Modern landing & product listing pages  
+- 📄 Product details with price and description  
+- 🛒 Add to cart / remove from cart  
+- 💳 Checkout page (mock or real integration)  
+- 🔍 Product search and category filtering  
+- 🌓 Light/Dark mode toggle (Shadcn UI)  
+- 📱 Fully responsive for mobile & desktop  
+- ⚡ SEO-friendly with Next.js App Router  
+
+---
+
+## 📁 Folder Structure
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
