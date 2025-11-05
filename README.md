@@ -7,7 +7,7 @@ This project focuses on clean UI, fast performance, and type-safe backend integr
 
 👉 [View Live Site](https://ecommerce-site-three-psi.vercel.app)
 
-🎥 [![Watch Demo Video](https://res.cloudinary.com/dguer2ngx/image/upload/v1762306415/Images/04.11.2025_08.26.29_REC_bdeuhc.png)](https://res.cloudinary.com/dguer2ngx/video/upload/v1762306610/Videos/04.11.2025_08.10.46_REC_hcgudr.mp4)
+🎥 [![Watch Demo Video](https://res.cloudinary.com/dguer2ngx/image/upload/v1762306415/Images/04.11.2025_08.26.29_REC_bdeuhc.png)](https://res.cloudinary.com/dguer2ngx/video/upload/v1762306610/Videos/04.11.2025_08.10.46_REC_hcgudr.mp4)_(opens in new tab)_
 
 🧠 Tech Stack
 Category	Technology
